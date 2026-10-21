@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<!--
+  ПЕРВЫЙ САЙТ: одностраничник для студии маникюра (демо).
+  Как читать этот файл:
+    1) HTML (внизу, в блоке body) — это содержимое: заголовки, тексты, кнопки.
+    2) CSS (в блоке style вверху) — это оформление: цвета, шрифты, отступы.
+    3) JavaScript (в блоке script в самом конце) — это поведение: форма записи.
+  Чтобы сделать сайт под другого клиента, меняйте тексты, цены, цвета в блоке :root и контакты.
+-->
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Студия маникюра «Мята и лак» — запись онлайн</title>
+  <meta name="description" content="Аккуратный маникюр и педикюр. Цены, свободное время и онлайн-запись за минуту.">
+
+  <!-- Шрифты с Google Fonts. Если интернета нет, браузер возьмёт запасной шрифт из списка ниже -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;600&family=Manrope:wght@400;500;700&display=swap">
+
+  <style>
+    /* ---------- 1. ЦВЕТА И ШРИФТЫ В ОДНОМ МЕСТЕ ----------
+       Поменяйте значения здесь, и весь сайт перекрасится. */
+    :root {
+      --bg: #f4f1f8;          /* фон страницы */
+      --surface: #ffffff;     /* фон карточек */
+      --ink: #1f1a2e;         /* основной текст */
+      --muted: #5f5873;       /* второстепенный текст */
+      --accent: #d6336c;      /* главный цвет: кнопки, цены */
+      --accent-dark: #a8204f; /* цвет кнопки при наведении */
+      --mint: #cfeee6;        /* второй цвет для декора */
+      --line: #e1dbea;        /* тонкие линии */
+      --font-title: 'Unbounded', 'Trebuchet MS', sans-serif;
+      --font-text: 'Manrope', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    }
+
+    /* ---------- 2. БАЗОВЫЕ ПРАВИЛА ---------- */
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }           /* плавная прокрутка к разделам */
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--font-text);
+      font-size: 17px;
+      line-height: 1.6;
+    }
+    img, svg { max-width: 100%; }
+    a { color: inherit; }
+    .wrap { max-width: 1080px; margin: 0 auto; padding: 0 20px; }  /* центральная колонка */
+
+    h1, h2, h3 { font-family: var(--font-title); line-height: 1.15; margin: 0; font-weight: 600; }
+    h2 { font-size: clamp(1.5rem, 4vw, 2.1rem); margin-bottom: 28px; }
+    section { padding: 64px 0; }
+
+    /* Видимая рамка при навигации с клавиатуры (важно для доступности) */
+    a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
+      outline: 3px solid var(--ink);
+      outline-offset: 3px;
+    }
+
+    /* ---------- 3. ШАПКА ---------- */
+    header {
+      position: sticky; top: 0; z-index: 10;
+      background: rgba(244, 241, 248, 0.92);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--line);
+    }
+    .bar { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 14px 0; }
+    .logo { font-family: var(--font-title); font-weight: 600; text-decoration: none; font-size: 1.05rem; }
+    nav { display: flex; gap: 20px; flex-wrap: wrap; }
+    nav a { text-decoration: none; color: var(--muted); font-weight: 500; }
+    nav a:hover { color: var(--ink); }
+
+    /* ---------- 4. КНОПКА ---------- */
+    .btn {
+      display: inline-block;
+      background: var(--accent); color: #fff;
+      padding: 14px 26px; border: 0; border-radius: 999px;
+      font: inherit; font-weight: 700; text-decoration: none; cursor: pointer;
+      transition: background 0.2s;
+    }
+    .btn:hover { background: var(--accent-dark); }
+
+    /* Вторая кнопка с рамкой: «Записаться в Telegram». Ссылка на бота задаётся в href у кнопок ниже */
+    .btn-tg { background: transparent; color: var(--ink); border: 2px solid var(--ink); padding: 12px 24px; }
+    .btn-tg:hover { background: var(--ink); color: var(--bg); }
+    .actions { display: flex; flex-wrap: wrap; gap: 12px; }
+    .tg-note { margin: 0 0 18px; color: var(--muted); }
+
+    /* ---------- 5. ГЛАВНЫЙ ЭКРАН ---------- */
+    .hero { padding: 56px 0 40px; }
+    .hero-grid { display: grid; gap: 40px; align-items: center; grid-template-columns: 1fr; }
+    .hero h1 { font-size: clamp(1.9rem, 6vw, 3.1rem); margin-bottom: 18px; }
+    .hero p { color: var(--muted); font-size: 1.1rem; margin: 0 0 28px; max-width: 34rem; }
+    .hero small { display: block; margin-top: 14px; color: var(--muted); }
+
+    /* Картинка заменена рисунком из CSS: пять «ноготков». Позже можно вставить настоящее фото через <img> */
+    .nails {
+      display: flex; gap: 14px; justify-content: center; align-items: flex-end;
+      background: var(--mint); border-radius: 28px; padding: 48px 20px 40px;
+    }
+    .nail {
+      width: 52px; height: 84px; position: relative;
+      border-radius: 26px 26px 14px 14px;
+      background: linear-gradient(160deg, var(--c1), var(--c2));
+      box-shadow: 0 10px 18px rgba(31, 26, 46, 0.18);
+      transform: rotate(var(--r));
+    }
+    .nail::after {                      /* блик на ногте */
+      content: ""; position: absolute; top: 10px; left: 11px;
+      width: 9px; height: 34px; border-radius: 6px;
+      background: rgba(255, 255, 255, 0.55);
+    }
+
+    /* ---------- 6. ПРАЙС-ЛИСТ ---------- */
+    .price-list { list-style: none; margin: 0; padding: 0; background: var(--surface); border-radius: 20px; border: 1px solid var(--line); }
+    .price-list li {
+      display: grid; grid-template-columns: 1fr auto; column-gap: 20px;
+      padding: 18px 22px; border-bottom: 1px solid var(--line);
+    }
+    .price-list li:last-child { border-bottom: 0; }
+    .price-list .name { font-weight: 700; }
+    .price-list .time { color: var(--muted); font-size: 0.92rem; }
+    .price-list .cost { grid-row: 1 / span 2; grid-column: 2; align-self: center; font-weight: 700; color: var(--accent); white-space: nowrap; }
+
+    /* ---------- 7. ПРЕИМУЩЕСТВА ---------- */
+    .cards { display: grid; gap: 18px; grid-template-columns: 1fr; }
+    .card { background: var(--surface); border-radius: 20px; padding: 26px; border: 1px solid var(--line); }
+    .card h3 { font-size: 1.05rem; margin-bottom: 10px; }
+    .card p { margin: 0; color: var(--muted); }
+
+    /* ---------- 8. ЗАПИСЬ ---------- */
+    .booking { display: grid; gap: 32px; grid-template-columns: 1fr; align-items: start; }
+    form { background: var(--surface); border-radius: 20px; padding: 26px; border: 1px solid var(--line); display: grid; gap: 16px; }
+    label { display: grid; gap: 6px; font-weight: 700; font-size: 0.95rem; }
+    input, select, textarea {
+      font: inherit; font-weight: 400; color: var(--ink);
+      padding: 12px 14px; border: 1px solid var(--line); border-radius: 12px; background: #fff; width: 100%;
+    }
+    textarea { resize: vertical; min-height: 84px; }
+    .contacts p { margin: 0 0 10px; color: var(--muted); }
+    .contacts strong { color: var(--ink); }
+    #thanks { display: none; background: var(--mint); border-radius: 14px; padding: 16px 18px; font-weight: 700; }
+
+    footer { border-top: 1px solid var(--line); padding: 28px 0 40px; color: var(--muted); font-size: 0.92rem; }
+
+    /* ---------- 9. АДАПТАЦИЯ ПОД ЭКРАНЫ ПОБОЛЬШЕ ---------- */
+    @media (min-width: 760px) {
+      .hero-grid { grid-template-columns: 1.1fr 0.9fr; }
+      .cards { grid-template-columns: repeat(3, 1fr); }
+      .booking { grid-template-columns: 1.1fr 0.9fr; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .btn { transition: none; }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- ШАПКА: логотип и меню. href="#uslugi" ведёт к блоку с id="uslugi" -->
+  <header>
+    <div class="wrap bar">
+      <a class="logo" href="#top">Мята и лак</a>
+      <nav aria-label="Основное меню">
+        <a href="#uslugi">Услуги</a>
+        <a href="#pochemu">Почему мы</a>
+        <a href="#zapis">Запись</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <!-- ГЛАВНЫЙ ЭКРАН: главное предложение и кнопка -->
+    <section class="hero">
+      <div class="wrap hero-grid">
+        <div>
+          <h1>Аккуратный маникюр без долгого ожидания</h1>
+          <p>Студия на пять кресел. Запишитесь онлайн за минуту: выберите услугу и удобное время, а накануне мы напомним о визите.</p>
+          <div class="actions">
+            <a class="btn" href="#zapis">Записаться</a>
+            <a class="btn btn-tg" href="https://t.me/manichelperbot" target="_blank" rel="noopener">Записаться в Telegram</a>
+          </div>
+          <small>Ежедневно с 10:00 до 21:00</small>
+        </div>
+        <div class="nails" role="img" aria-label="Пять накрашенных ногтей разных цветов">
+          <span class="nail" style="--c1:#f7a1c4; --c2:#d6336c; --r:-6deg"></span>
+          <span class="nail" style="--c1:#ffd9a8; --c2:#f08c3c; --r:-3deg"></span>
+          <span class="nail" style="--c1:#c9b8f5; --c2:#6c4bd1; --r:0deg"></span>
+          <span class="nail" style="--c1:#9fe0d0; --c2:#1f8f7a; --r:3deg"></span>
+          <span class="nail" style="--c1:#fff1f5; --c2:#e4a9bd; --r:6deg"></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- УСЛУГИ И ЦЕНЫ: список. Чтобы добавить строку, скопируйте целый блок <li>...</li> -->
+    <section id="uslugi">
+      <div class="wrap">
+        <h2>Услуги и цены</h2>
+        <ul class="price-list">
+          <li><span class="name">Классический маникюр</span><span class="time">около 1 часа</span><span class="cost">1 500 ₽</span></li>
+          <li><span class="name">Маникюр с покрытием гель-лаком</span><span class="time">около 2 часов</span><span class="cost">2 300 ₽</span></li>
+          <li><span class="name">Наращивание ногтей</span><span class="time">около 2,5 часов</span><span class="cost">3 500 ₽</span></li>
+          <li><span class="name">Педикюр с покрытием</span><span class="time">около 2 часов</span><span class="cost">2 800 ₽</span></li>
+          <li><span class="name">Дизайн (за один ноготь)</span><span class="time">по договорённости</span><span class="cost">от 100 ₽</span></li>
+          <li><span class="name">Снятие покрытия</span><span class="time">около 20 минут</span><span class="cost">400 ₽</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ПРЕИМУЩЕСТВА: три карточки -->
+    <section id="pochemu">
+      <div class="wrap">
+        <h2>Почему к нам возвращаются</h2>
+        <div class="cards">
+          <div class="card">
+            <h3>Чистые инструменты</h3>
+            <p>После каждого клиента инструменты проходят обработку. Вы всегда можете спросить мастера, как это делается.</p>
+          </div>
+          <div class="card">
+            <h3>Запись без переписки</h3>
+            <p>Оставьте заявку на сайте, и мы подтвердим время. За день до визита придёт напоминание.</p>
+          </div>
+          <div class="card">
+            <h3>Цена без сюрпризов</h3>
+            <p>Стоимость называем до начала работы. Если нужны доработки, согласуем их заранее.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ЗАПИСЬ: форма и контакты -->
+    <section id="zapis">
+      <div class="wrap booking">
+        <div>
+          <h2>Запись онлайн</h2>
+          <p class="tg-note">Быстрее всего записаться в Telegram: бот предложит услуги, дату и время.</p>
+          <p><a class="btn btn-tg" href="https://t.me/manichelperbot" target="_blank" rel="noopener">Открыть бота в Telegram</a></p>
+          <form id="booking-form" novalidate>
+            <label>Ваше имя
+              <input type="text" name="name" autocomplete="name" required>
+            </label>
+            <label>Телефон
+              <input type="tel" name="phone" autocomplete="tel" placeholder="+7 000 000-00-00" required>
+            </label>
+            <label>Услуга
+              <select name="service">
+                <option>Классический маникюр</option>
+                <option>Маникюр с покрытием гель-лаком</option>
+                <option>Наращивание ногтей</option>
+                <option>Педикюр с покрытием</option>
+              </select>
+            </label>
+            <label>Желаемая дата
+              <input type="date" name="date">
+            </label>
+            <label>Комментарий
+              <textarea name="comment" placeholder="Например, удобнее после 18:00"></textarea>
+            </label>
+            <button class="btn" type="submit">Отправить заявку</button>
+            <p id="error" role="alert" style="margin:0; color:#a8204f; display:none"></p>
+            <div id="thanks" role="status"></div>
+          </form>
+        </div>
+        <div class="contacts">
+          <h2>Контакты</h2>
+          <p><strong>Адрес:</strong> ул. Примерная, 10 (вымышленный адрес для демо)</p>
+          <p><strong>Телефон:</strong> +7 000 000-00-00</p>
+          <p><strong>Время работы:</strong> ежедневно с 10:00 до 21:00</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      © <span id="year"></span> «Мята и лак». Демо-сайт: студия и контакты вымышлены.
+    </div>
+  </footer>
+
+  <script>
+    // ---------- ПОВЕДЕНИЕ ----------
+    // 1) Подставляем текущий год в подвал, чтобы не править его каждый январь.
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // 2) Форма записи. Здесь она только проверяет поля и показывает «спасибо».
+    //    ВАЖНО: на реальном сайте заявку нужно куда-то отправить (в Telegram-бота,
+    //    на почту или в таблицу). Это следующий шаг и ваша услуга для клиента.
+    var form = document.getElementById('booking-form');
+    var thanks = document.getElementById('thanks');
+    var error = document.getElementById('error');
+
+    form.addEventListener('submit', function (event) {
+      event.preventDefault();                       // не даём странице перезагрузиться
+
+      var name = form.elements.name.value.trim();
+      var phone = form.elements.phone.value.trim();
+      var digits = phone.replace(/\D/g, '');        // оставляем в телефоне только цифры
+
+      thanks.style.display = 'none';
+      if (name === '' || digits.length < 10) {
+        error.textContent = 'Укажите имя и телефон, чтобы мы могли подтвердить запись.';
+        error.style.display = 'block';
+        return;
+      }
+      error.style.display = 'none';
+
+      thanks.textContent = name + ', спасибо! Заявка принята (в демо она никуда не отправляется).';
+      thanks.style.display = 'block';
+      form.reset();
+    });
+  </script>
+</body>
+</html>
